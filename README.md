@@ -61,7 +61,16 @@ Call-endpoint switching goes through the dsh settings service
 (`settings.update("llm-pi-ai", …)` deep-merges `baseURL` only); `llm-pi-ai`
 picks it up live.
 
-> **Requires** DSH `>= 0.1.2-alpha.4` (developed and tested on `0.1.2-alpha.5`; older builds lack the settings hot-update and plugin HMR this plugin relies on — not guaranteed).
+> **Compatibility** (V1.01 / `1.0.1`): DSH `>= 0.1.5-rc.1` (adapted and tested on `0.1.5-rc.1`).
+> From V1.01 the channel's HTTP route is registered by the plugin itself via the
+> `webServer` service: `ctx.connection.rpc.handle` throws on DSH `0.1.5-rc.1`
+> because the connection plugin's internal `webServer` access lacks the inject,
+> so it is no longer used.
+>
+> | Plugin version | DSH versions |
+> |---|---|
+> | V1.01 (`1.0.1`) | `>= 0.1.5-rc.1` |
+> | V1.0 (`1.0.0`) | `0.1.2-alpha.4` ~ `0.1.2-rc.1` |
 
 ## Install
 

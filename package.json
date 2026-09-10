@@ -1,7 +1,7 @@
 {
   "name": "dsh-zhipu-balance",
   "description": "Zhipu (智谱/BigModel) balance & usage panel for the dsh web surface: API quota/resource packs and GLM Coding Plan windows in a right-edge collapsible panel, fed by a loopback Connection RPC channel whose host half proxies the Zhipu monitor endpoints with credentials that never reach the browser.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -35,7 +35,7 @@
       "immediately": true
     },
     "engines": {
-      "dsh": ">=0.1.2-alpha.4"
+      "dsh": ">=0.1.5-rc.1"
     }
   },
   "keywords": [
