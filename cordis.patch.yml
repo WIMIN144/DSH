@@ -1,0 +1,19 @@
+# dsh-zhipu-balance bundle patch: mounts the Zhipu balance panel into a dsh profile.
+# Applied as a profile layer when this package is installed with
+# `dsh plugin --profile web add "link:E:/working/dsh-zhipu-balance"`.
+#
+# Every key is optional — defaults live in the exported Config schema.
+#
+#   refreshMs      auto-refresh interval (>= 5000), default 60000
+#   apiRefs        credential refs probed for the API/resource-pack row
+#   apiBaseUrl     Zhipu open platform base (CN default open.bigmodel.cn)
+#   codingRefs     credential refs probed for the Coding Plan row
+#   codingBaseUrl  coding plan base (CN: open.bigmodel.cn, global: api.z.ai)
+#   usageDetail    fetch calendar-month per-model usage detail (best effort), default true
+#   warnPercent / errorPercent  usage row thresholds, defaults 70 / 90
+
+- insert:
+    - id: zhipu-balance
+      name: 'dsh-zhipu-balance'
+      config:
+        refreshMs: 60000

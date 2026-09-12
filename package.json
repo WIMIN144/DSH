@@ -1,0 +1,53 @@
+{
+  "name": "dsh-zhipu-balance",
+  "description": "Zhipu (智谱/BigModel) balance & usage panel for the dsh web surface: API quota/resource packs and GLM Coding Plan windows in a right-edge collapsible panel, fed by a loopback Connection RPC channel whose host half proxies the Zhipu monitor endpoints with credentials that never reach the browser.",
+  "version": "1.0.1",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/client.js"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-connection"
+      ],
+      "immediately": true
+    },
+    "engines": {
+      "dsh": ">=0.1.5-rc.1"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "zhipu",
+    "bigmodel",
+    "glm",
+    "coding-plan",
+    "balance",
+    "quota"
+  ],
+  "license": "MIT"
+}
