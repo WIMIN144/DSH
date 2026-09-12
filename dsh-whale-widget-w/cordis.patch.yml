@@ -1,0 +1,18 @@
+# ============================================================================
+# dsh-whale-widget-w —— DSH bundle patch
+# ============================================================================
+# 这是插件的"挂载声明"。DSH 启动时按 bundle 层栈叠加各插件 patch，
+# 本文件会把鲸鱼余额挂件插入 Web profile 的配置树。
+#
+# id/name 使用 dsh-whale-widget-w（W 魔改版），与原版 dsh-whale-widget
+# 区分开，避免两者同时安装时在 DSH 插件列表里冲突。
+#
+# 安装方式（不再需要手工复制/手工改 profile patch）：
+#   dsh plugin --profile web add dsh-whale-widget-w
+# 或本地开发安装：
+#   dsh plugin --profile web add link:<本目录绝对路径>
+# ============================================================================
+
+- insert:
+    - id: dsh-whale-widget-w
+      name: dsh-whale-widget-w

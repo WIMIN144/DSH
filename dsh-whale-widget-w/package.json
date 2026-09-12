@@ -1,0 +1,41 @@
+{
+  "name": "dsh-whale-widget-w",
+  "version": "0.2.10-w.1",
+  "description": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件（含今日已用、峰谷定价、随机台词、音效与每轮消耗统计）—— W 魔改版，基于 MeteorNOX/dsh-whale-widget 0.2.10，详见 README-W.md",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "balance",
+    "widget"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md",
+    "README-W.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w.git"
+  },
+  "bugs": {
+    "url": "https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w/issues"
+  },
+  "homepage": "https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w#readme",
+  "original": {
+    "name": "dsh-whale-widget",
+    "version": "0.2.10",
+    "author": "MeteorNOX",
+    "url": "https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT"
+}
