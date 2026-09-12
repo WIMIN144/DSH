@@ -13,6 +13,15 @@
     "lib",
     "cordis.patch.yml"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WIMIN144/DSH.git",
+    "directory": "dsh-zhipu-balance"
+  },
+  "bugs": {
+    "url": "https://github.com/WIMIN144/DSH/issues"
+  },
+  "homepage": "https://github.com/WIMIN144/DSH/tree/zhipu#readme",
   "scripts": {
     "check": "node --check lib/index.js && node --check lib/client.js"
   },

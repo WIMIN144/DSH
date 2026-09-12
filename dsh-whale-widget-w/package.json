@@ -20,12 +20,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w.git"
+    "url": "git+https://github.com/WIMIN144/DSH.git",
+    "directory": "dsh-whale-widget-w"
   },
   "bugs": {
-    "url": "https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w/issues"
+    "url": "https://github.com/WIMIN144/DSH/issues"
   },
-  "homepage": "https://github.com/<YOUR_GITHUB_USERNAME>/dsh-whale-widget-w#readme",
+  "homepage": "https://github.com/WIMIN144/DSH/tree/whale#readme",
   "original": {
     "name": "dsh-whale-widget",
     "version": "0.2.10",

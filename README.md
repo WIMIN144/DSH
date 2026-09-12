@@ -9,12 +9,25 @@
 
 ## 安装
 
-仓库根目录是插件集合，不是单个插件包，安装时指向对应子目录（本地 link 方式）：
+`main` 分支是开发用的插件集合，**不能直接安装**（根目录没有 package.json）。每个插件发布在同名分支上，分支根目录就是插件本体，可用插件管理器直接安装：
 
 ```powershell
-git clone https://github.com/WIMIN144/dsh.git
-dsh plugin --profile web add link:<克隆路径>\dsh-zhipu-balance
-dsh plugin --profile web add link:<克隆路径>\dsh-whale-widget-w
+dsh plugin --profile web add github:WIMIN144/DSH#zhipu
+dsh plugin --profile web add github:WIMIN144/DSH#whale
 ```
 
+或在 dsh 插件页的 git 安装框里填 `github:WIMIN144/DSH#zhipu` / `github:WIMIN144/DSH#whale`。
+
 各插件的完整说明见各自子目录内的 README。
+
+## 维护者指南：发布插件更新
+
+日常开发在 `main` 的子目录里进行。发布时运行同步脚本，把子目录内容发布到对应安装分支：
+
+```powershell
+node scripts/sync-branches.mjs zhipu     # 发布 dsh-zhipu-balance → zhipu 分支
+node scripts/sync-branches.mjs whale    # 发布 dsh-whale-widget-w → whale 分支
+node scripts/sync-branches.mjs all      # 两个都发布
+```
+
+脚本会用 `git subtree split` 把子目录（含完整提交历史）重建为分支根目录，并 push 到 origin。
