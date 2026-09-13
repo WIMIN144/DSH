@@ -11,7 +11,8 @@
 // 普通提交：checkout 分支 → 清空 → 从 main 的子目录复制 → commit → push。
 
 import { execSync } from "node:child_process";
-import { cpSync, readdirSync } from "node:fs";
+import { cpSync, readdirSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const PLUGINS = {
@@ -52,11 +53,16 @@ for (const t of targets) {
     run(`git subtree split -P ${dir} -b ${t}`);
     console.log(`已创建分支 ${t}（subtree split，继承插件完整提交历史）`);
   } else {
+    // 先把 main 子目录快照到系统临时目录——checkout 分支后该子目录会从工作区消失，
+    // 原实现直接读 join(root, dir) 会 ENOENT，并把工作区留在「已切分支 + 全删暂存」的中间态
+    const staging = join(tmpdir(), `dsh-sync-${t}-${Date.now()}`);
+    cpSync(join(root, dir), staging, { recursive: true });
     run(`git checkout ${t}`);
-    // 清空分支根目录的全部跟踪文件，再从 main 的子目录复制最新内容
+    // 清空分支根目录的全部跟踪文件，再从快照复制最新内容
     run("git rm -rq .");
-    for (const entry of readdirSync(join(root, dir)))
-      cpSync(join(root, dir, entry), join(root, entry), { recursive: true });
+    for (const entry of readdirSync(staging))
+      cpSync(join(staging, entry), join(root, entry), { recursive: true });
+    rmSync(staging, { recursive: true, force: true });
     run("git add -A");
     if (run("git status --porcelain") !== "") {
       const ref = run("git rev-parse --short main");
