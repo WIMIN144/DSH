@@ -51,11 +51,15 @@
 - 全零模型自动过滤（官方会下发账号全部模型，未调用的不展示）
 - 指示灯跟随用量视图：**只要展示用量明细就显示**（灰=未配置令牌 / 黄=待校准 / 绿=已校准），组合勾选下同样生效
 
+![本月用量明细：hero 行金额后的红色 (+0.07) = 官方峰谷计费比本地价格表多付的峰时部分](docs/screenshot-usage-month.png)
+
 ### 3. 常驻内容多选组合
 
 - 「常驻」改为勾选面板：**对话 / 余额 / 用量 / 峰谷** 任意组合
 - 全不选 = 无常驻；全选 = 随机（轮换全部）；部分勾选 = 点击气泡或轮播在勾选内容间切换（显示为 `X+X` / `X+X+X`）
 - 用量子视图自动使用放大气泡，随机轮播按内容自适应大小框；GIF 组切换时正确清理上一组的文字残留
+
+![常驻内容勾选面板](docs/screenshot-persist-pop.png)
 
 ### 4. 峰谷视图增强（三行时段视图 / 谷时提醒 / 峰时锁定轮播）
 
@@ -65,12 +69,28 @@
   - 仅锁定 **DeepSeek 模型**：其他模型（如 GLM）完全不受影响，峰时照常调用
 - 时段叫法点击气泡轮换：默认 / 梁文峰谷 / 峰峰
 
+**峰时下两种模型的对比**（锁定只针对 DeepSeek）：
+
+| 非 DeepSeek 模型（GLM）：不锁定，正常使用 | DeepSeek 模型：峰时锁定中 |
+|---|---|
+| ![峰时 × GLM：不锁定正常使用](docs/screenshot-peak-view.png) | ![峰时 × DeepSeek：锁定中](docs/screenshot-peak-lock.png) |
+
+**谷时两种状态对比**：
+
+| 空闲时段：谷时倒计时 | 最后 30 分钟：谷时提醒 |
+|---|---|
+| ![空闲时段：谷时倒计时](docs/screenshot-valley-view.png) | ![谷时提醒：即将结束](docs/screenshot-valley-remind.png) |
+
 ### 5. 三路大小调节 + 恢复默认
 
 - 「开关」改为目标选择：**气泡 / 字号 / 整体**，「大小」滑杆与数字框（**0–20 整数档**）独立调节所选部分
 - **0 = 隐藏该部分**，调回大于 0 即恢复（8 ≈ 原始大小，20 最大）；整体 0 = 右下角整体隐身，悬停右下角唤出菜单拉回
 - **恢复默认按钮**：一键全局重置（大小 8 档、小黄鸭音效 100%、常驻无、轮播 3 秒、自动关闭 3 秒等）
 - 拖动整体大小时设置框保持固定不跟随
+
+![菜单全貌（默认状态）](docs/screenshot-menu.png)
+
+![大小目标选择：气泡 / 字号 / 整体](docs/screenshot-size-target.png)
 
 ### 6. 其他
 
@@ -109,6 +129,7 @@ dsh plugin --profile web add link:<本目录绝对路径>
 1. 浏览器（Edge/Chrome）安装 **Tampermonkey** 扩展
 2. dsh web 运行中，浏览器打开 `http://127.0.0.1:3080/dsh-whale/token-sync.user.js` → Tampermonkey 自动弹出安装页 → 点**安装**（脚本 v1.0.1+）
 
+![Tampermonkey 脚本安装页](docs/screenshot-tampermonkey.png)
 3. 打开并登录 [platform.deepseek.com](https://platform.deepseek.com)，**刷新一次页面**。浏览器若弹出「platform.deepseek.com 想要访问此设备上的其他应用和服务」权限框 → 点**允许**
 
 验证：F12 打开控制台（Console），出现 `[dsh-whale] 平台令牌已同步到本地 DSH 挂件` 即成功；挂件指示灯随后变黄/绿。
