@@ -1,6 +1,6 @@
 {
   "name": "dsh-whale-widget-w",
-  "version": "0.2.10-w.1",
+  "version": "0.2.10-w.2",
   "description": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件（含今日已用、峰谷定价、随机台词、音效与每轮消耗统计）—— W 魔改版，基于 MeteorNOX/dsh-whale-widget 0.2.10，详见 README-W.md",
   "keywords": [
     "dsh",
