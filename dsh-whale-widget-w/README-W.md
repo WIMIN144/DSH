@@ -36,7 +36,9 @@
 ### 1. 数据链路：用量校准 + 平台令牌自动同步
 
 - **校准模式**：官方用量数据为锚定基线 + 本地增量合并显示；**今日 / 本月各自独立校准**——某周期官方数据未追上本地时，仅该周期沿用上一轮基线不校准（防校丢），不连累另一周期；跨天 / 跨月自动作废重建；某周期官方完全不可用时该周期显示整份本地账本，本月连官方锚都没有时只展示「今日」
-- **平台令牌自动同步**：内置油猴脚本（`assets/dsh-whale-token-sync.user.js`），把 platform.deepseek.com 的登录令牌自动推送到本机端点，免手动 F12 抓令牌；重新登录平台后自动更新
+- **平台令牌自动同步**：内置油猴脚本（`assets/dsh-whale-token-sync.user.js`，v1.0.1），把 platform.deepseek.com 的登录令牌自动推送到本机端点，免手动 F12 抓令牌；重新登录平台后自动更新
+  - 分发路由 `GET /dsh-whale/token-sync.user.js` 读不到该文件时会回 `404 text/plain` + 正文 `userscript unavailable`：**这个文件必须随包发布**，缺失时安装地址只会显示这一行字、Tampermonkey 不弹安装页（与油猴的「允许用户脚本 / 开发者模式 / 站点访问权限」等设置无关，重装插件也不会自愈）
+  - 脚本行为：`@match https://platform.deepseek.com/*`、`@run-at document-start`、`@grant none`（页面上下文注入，才能读官网自己的 `localStorage`）；依次尝试 `userToken / user_token / token / access_token / accessToken / auth_token / Authorization`，逐层解包 `{"value":…}` / `{"token":…}` / 首尾引号 / `Bearer `，都不中再全量扫描但**只认 JWT 形态**（`ey…` 三段）；`POST /dsh-whale/platform-token`（`Content-Type: text/plain` + `{"token":"…"}`，`credentials:'omit'`，服务端 `Access-Control-Allow-Origin: *`）；加载即推一次，之后每 5 秒 + 切回标签页/窗口聚焦时补推，令牌未变不重推；成功打 `[dsh-whale] 平台令牌已同步到本地 DSH 挂件`，失败打 HTTP 状态或 PNA 权限提示，**日志只打令牌长度、绝不打印令牌本体**；端点可用 `localStorage['dshw-token-sync-endpoint']` 覆盖
 - 适配 **Edge/Chrome 私网访问预检**（PNA）：正确应答 OPTIONS 预检与 `Access-Control-Allow-Private-Network` 头，解决"令牌同步静默失败"
 - 官方接口适配：`end` 参数对齐本地零点、补 `x-client-platform` 头（否则返回 INVALID_PARAM）
 - 本地账本兜底：官方出账延迟使「官方锚 + 本地增量」低于 DSH 侧实时账本时，按 模型×周期 取本地账本（整桶替换），挂件用量不会落后于 DSH 自带的「Token 用量」面板
@@ -164,3 +166,4 @@ dsh plugin --profile web add link:<本目录绝对路径>
 - `lib/index.js` 中 `FAKE_TRANSITION_TEST = false`（峰谷假时间线测试脚本，代码保留、默认关闭）
 - `package.json` 的 repository/bugs/homepage 已填真实仓库地址
 - 本 README-W 的改动清单与版本号已更新
+- `assets/dsh-whale-token-sync.user.js` 存在且随包发布（缺失会让 `GET /dsh-whale/token-sync.user.js` 恒回 `404 userscript unavailable`，油猴装不上脚本、平台令牌永远同步不上来）
