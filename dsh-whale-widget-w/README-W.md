@@ -158,7 +158,7 @@ B 组自带「今日用量」「本月用量」两张明细泡：
 ![Tampermonkey 安装页（脚本 v1.0.2，来源就是本机 dsh）](docs/screenshot-tampermonkey.png)
 ![装好后在 platform.deepseek.com 的控制台可见两行 [dsh-whale] 日志：脚本已加载 + 平台令牌已同步（来源 key: userToken，长度 64）](docs/screenshot-token-sync-console.png)
 
-> 上面第二张图里，DeepSeek 页面自己的埋点日志（含账号标识）已被抹除，只保留 `[dsh-whale]` 两行 —— 本仓库所有截图同理，发布前会检查是否含账号/密钥类信息。
+> 上面第二张图里，DeepSeek 页面自己的埋点日志（含账号标识）已做像素化打码，只保留 `[dsh-whale]` 两行 —— 本仓库所有截图同理，发布前会检查是否含账号/密钥类信息。
 
 ## 五、节假日峰谷
 
