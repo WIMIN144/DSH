@@ -8,7 +8,8 @@
 - 当前版本 `0.3.5-w.3`（沿用内部 W.3 叫法；基线为原版 `0.3.5`，含 `lib/accounting.mjs` 记账内核），已整体重写 W.3 功能。
 - **宿主实测版本 `dsh 0.1.5-rc.3`**（2026-09-23 从 0.1.5-rc.1 升级后挂载/路由/信任栅栏全绿）。挂件对宿主只有四处依赖：`webServer.register` + `webServer.tapIndex`、前端 `data-composer-input`（或 `seat`/`card`）、`connection.requestRejection`、宿主读 `settings.yaml` 的 `agent-default-model.model` —— 升级 dsh 后只需核这四处，前端不碰 dsh 自己的 `/api/*`。
 - ⚠ 升 dsh **不要 `npm i -g @deepseek-ai/dsh@latest`**：`latest` 标签停在 rc.2，它的 `^0.1.5-rc.2` 依赖会把 cordis 漂到 4.0.4，结果是 `dsh web` 起不来（`plugin(s) failed to load: @deepseek-ai/dsh-sandbox-local`，npm 把它嵌到了 `dsh-base/node_modules` 下，cordis 从根目录解析不到）。装 **`@next`**（rc.3，把 cordis 精确钉在 4.0.2）正常。另外 `npm install -g` 会打死正在跑的 `dsh web`（lazy require 去磁盘取模块就崩），装完要自己重启。
-- 本包为 GitHub 发布草稿：**全部改动尚未 git 提交**（源码目录 = 本机 `plugins\dsh-whale-widget-w`，以 link 方式挂在 dsh 上，无 `.git`）。验收演示完成后建议一次性提交并打 tag（`v0.3.5-w.3`）。
+- **已发布**（2026-09-23）：仓库 `WIMIN144/DSH`，`main` 的 `dsh-whale-widget-w/` 子目录 = 开发源，**`whale` 分支根目录 = 安装源**（`github:WIMIN144/DSH#whale`），tag `v0.3.5-w.3` + GitHub Release。本机这份 `plugins\dsh-whale-widget-w` 仍是**无 `.git` 的工作副本**（开发时用 `link:` 挂 dsh）。发布流程：把这份拷进 clone 的 `main` 子目录 → commit → push → `node scripts/sync-branches.mjs whale`（脚本细节与它的坑见 §15）。
+- ⚠ 仓库里 `main` 根目录**没有 package.json**，所以 `git+https://…#main` 或仓库根地址装不了；也别指望 `…/tree/main/dsh-whale-widget-w` 这种子目录地址 —— 安装一律走**分支根**。
 - ⚠ 本文档与 `HANDOFF.md` 里不要再写死含用户名的绝对路径（`C:\Users\...`、`D:\...`）——这两个文件会随包发布。
 - `.github/workflows/publish.yml`（W.2 时代的发布流水线）与 `docs/` 旧截图已随基线重置删除；`docs/` 待按 README-W 的 7 个配图占位补图。
 
@@ -125,10 +126,13 @@ window.__dshwTrigDebug.ew(id)                 // 读某颗泡的生效权重；�
 
 ## 9. 待办
 
-- [ ] 验收演示完成后 git 提交 + 打 tag
+- [x] ~~验收演示完成后 git 提交 + 打 tag~~ → 2026-09-23 已发：`main` + `whale` 分支 + tag `v0.3.5-w.3` + Release
+- [ ] 补 3 张配图（§四 Tampermonkey 安装页、§一 原版菜单已放；剩 Tampermonkey / 另 2 张见 §8 清单）
+- [ ] **GitHub 首屏用哪份 README 待定**：现在 `main` 根 README 是"插件集合"目录页，`whale` 分支根是 README.md（上游口径 + W 横幅）+ README-W.md（W 版详解）
+- [ ] **修 `scripts/sync-branches.mjs`**（新克隆上必失败，见 §15）
+- [ ] 恢复默认基线是否按"常驻只勾 B"的最新状态再烤一次（当前基线是常驻=无）—— 等用户点头
 - [ ] 峰谷假时间线重做与测试（方案见第 3 节）
 - [ ] 观察「今日」官方用量数据是否长期返回空（第 4 节第 6 条）
-- [ ] 按 README-W 占位补 7 张配图
 - [ ] 智谱 / 千问生态面板（现为空白占位）
 - [ ] **跟宿主到 0.1.6-alpha 及以后时要回归的清单**（官方 Releases 原文里的插件相关改动，rc 线还没有）：① 插件依赖改「运行时解析」(alpha.1) —— 我们的 `link:` 安装与 `main: lib/index.js` 解析路径要重验；② 新增插件管理页 + 实时启停 (alpha.2) —— README-W §七 教的手改 `cordis.patch.yml` 会被 UI 取代；③ 「设置改由当前 Profile 的插件配置保存」「Agent 预设改由插件组合包声明安装」(0.1.7-alpha.1)；④ 插件可用 locale 数据结构声明多语言标题/描述、patch 组合包按顺序加载 (0.1.7-alpha.1)；⑤ 「修复 Web 服务重启后显示已连接却无法继续显示回复」(0.1.7-alpha.2) —— 与本挂件的重连/常驻刷新有关，重启 dsh 后要看一眼气泡有没有复活。
 - [ ] 宿主 `0.1.5-rc.3` **官方没有 Release Notes**（npm 09-22 发，GitHub Releases 最新只到 rc.2）；`@latest` 装法会让 cordis 漂到 4.0.4 导致 `dsh web` 起不来，官方在 `0.1.7-alpha.2` 才把 vendor 包自动更新收紧到补丁版本 —— 也就是说这个坑是已知的，收紧之前**必须用 `@next` 或显式 `@0.1.5-rc.3`**。
@@ -252,3 +256,18 @@ window.__dshwTrigDebug.ew(id)                 // 读某颗泡的生效权重；�
 - 触发条件判定在常驻池（`wEntryLive` 2348-2359）与弹泡评估器（14220+）各写一遍：语义不同（一个"该不该在池里"、一个"这一刻要不要弹"），合并会把两者耦坏。
 - 上游死代码（`mkRow` 等 9 个、`bubbleDefaultQueue` 不可达旧体）：**按既定原则不删**（见 [[dsh-whale-widget-mod]]）。
 - 未记入 §2 的 `__dshwRemindMask`/`__dshwLegacyPeak` 不是调试钩子，是浮层登记与跨脚本标志位，不需要文档化。
+
+## 15. 发布流程实录（2026-09-23，W3 首次上 GitHub）
+
+仓库 `WIMIN144/DSH`：`main` = 插件集合（子目录，**根目录没有 package.json，不能直接装**），每个插件的安装源是**自己的同名分支根目录**。发布步骤（本机这份源码目录无 `.git`，是纯工作副本）：
+
+1. `git clone https://github.com/WIMIN144/DSH.git` → 在 `main` 上把 `dsh-whale-widget-w/` 整目录换成新构建（**`HANDOFF.md` 不发布**，它不在 `package.json` 的 `files` 里，拷的时候也别带上）。
+2. `git add -A && git commit` → `git push origin main`。
+3. `node scripts/sync-branches.mjs whale` → 把子目录内容发布到 `whale` 分支根并 push。
+4. 安装 spec 已实测可解析：`npm install --dry-run github:WIMIN144/DSH#whale` → `add dsh-whale-widget-w 0.3.5-w.3`（走 https，不需要 SSH key）。
+
+⚠ **`sync-branches.mjs` 有两个必踩的坑**（这次是绕过、没改脚本）：① 判断分支是否存在用的是 `git rev-parse refs/heads/<t>`，**只看本地分支** —— 新克隆里本地没有 `whale`，于是走 `git subtree split` 新建一条与远端无共同祖先的历史，push 必被拒 `non-fast-forward`（这就是历史上"在已有分支上必失败"的真因，上次改的是工作区处理，没改这个判断）。绕法：先 `git checkout -b whale origin/whale` 建本地跟踪分支再跑。② 脚本内部 `git commit` 依赖**全局 git 身份**，机器上没有 `~/.gitconfig` 就直接 `Please tell me who you are` 失败。绕法：`GIT_AUTHOR_NAME/GIT_AUTHOR_EMAIL/GIT_COMMITTER_NAME/GIT_COMMITTER_EMAIL` 四个环境变量传进去（不改用户配置）。正解是把 ① 改成同时看 `origin/<t>`、②给脚本加身份参数。
+
+⚠ **卸载插件不会清 `~/.dsh/profiles/web/cordis.patch.yml` 里的入口**。残留一条 `{ id: dsh-whale-widget-w, … }` 之后，用插件管理器再装同一个 id 会报「与现有插件的入口 id 冲突（dsh-whale-widget-w），已自动回滚」—— 手工把那条删掉再装（README-W §七 卸载段已写明）。
+
+⚠ **对比文件差异别用 `md5sum`**：clone 检出时 `core.autocrlf=true` 会把 LF 转成 CRLF，逐文件 md5 会"全部不一致"。要按内容比就用 `git hash-object <本地>` 对 `git rev-parse HEAD:<路径>`。
