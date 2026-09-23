@@ -208,6 +208,8 @@ github:WIMIN144/DSH#whale
 
 **卸载**：`dsh plugin --profile web remove dsh-whale-widget-w`。
 
+> ⚠️ 卸载只会移除包本身，**不会清掉 `~/.dsh/profiles/web/cordis.patch.yml` 里那条入口**。之后如果用插件管理器重新装同一个 id，会报「与现有插件的入口 id 冲突（dsh-whale-widget-w），已自动回滚」—— 手工把该文件里那一项删掉再装即可（文件里其它条目别动，改前建议先留一份备份）。
+
 ## 八、年度维护（更新节假日表）
 
 每年国务院公布下一年放假安排后，更新插件内的节假日年表并重启 dsh。具体文件位置与操作步骤见开发者备忘录 [DEV-NOTES.md](DEV-NOTES.md) 第 6 节。
