@@ -5,7 +5,7 @@
 # 本文件会把鲸鱼余额挂件插入 Web profile 的配置树。
 #
 # id/name 使用 dsh-whale-widget-w（W 魔改版），与原版 dsh-whale-widget
-# 区分开，避免两者同时安装时在 DSH 插件列表里冲突。
+# 区分开，避免两者同时安装时 loader entry id 冲突导致启动失败。
 #
 # 安装方式（不再需要手工复制/手工改 profile patch）：
 #   dsh plugin --profile web add dsh-whale-widget-w

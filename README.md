@@ -4,8 +4,8 @@
 
 | 子目录 | 插件 | 说明 |
 |---|---|---|
-| [dsh-zhipu-balance](./dsh-zhipu-balance) | `dsh-zhipu-balance` | 智谱/BigModel 余额与用量面板：API 配额/资源包 + GLM Coding Plan 窗口，右缘可折叠面板 |
-| [dsh-whale-widget-w](./dsh-whale-widget-w) | `dsh-whale-widget-w` | 小鲸鱼余额挂件 W 魔改版（基于 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 0.2.10）：常驻显示下拉框、梁文峰时段锁定（峰时隐藏发送按钮+拦键盘）、锁定气泡倒计时轮播、菜单悬停说明等 |
+| [dsh-whale-widget-w](./dsh-whale-widget-w) | `dsh-whale-widget-w` | **小鲸鱼余额挂件 W 魔改版 W3（当前 `0.3.5-w.3`）**，基于 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) `0.3.5` 并同步上游 0.3.6~0.3.9 修复：W 功能面板（常驻分组 / 轮播 / 峰谷 / 校准 / 生态与联锁）、泡泡管理分组系统（逐颗开关与权重、打标、重命名、图库上传自动压缩）、今日/本月用量明细泡（前端 + 官方校准双模式，需配油猴脚本）、节假日峰谷与峰时锁定。详见 [README-W.md](./dsh-whale-widget-w/README-W.md) |
+| [dsh-zhipu-balance](./dsh-zhipu-balance) | `dsh-zhipu-balance` | 智谱/BigModel 余额与用量面板：API 配额/资源包 + GLM Coding Plan 窗口，右缘可折叠面板。**⚠ 已停止维护** —— 功能计划并入 `dsh-whale-widget-w` 的 W4（智谱生态），届时本目录会删除；现有安装仍可用，但不再更新 |
 
 ## 安装
 
