@@ -11,7 +11,7 @@
 - **已发布**（2026-09-23）：仓库 `WIMIN144/DSH`，`main` 的 `dsh-whale-widget-w/` 子目录 = 开发源，**`whale` 分支根目录 = 安装源**（`github:WIMIN144/DSH#whale`），tag `v0.3.5-w.3` + GitHub Release。本机这份 `plugins\dsh-whale-widget-w` 仍是**无 `.git` 的工作副本**（开发时用 `link:` 挂 dsh）。发布流程：把这份拷进 clone 的 `main` 子目录 → commit → push → `node scripts/sync-branches.mjs whale`（脚本细节与它的坑见 §15）。
 - ⚠ 仓库里 `main` 根目录**没有 package.json**，所以 `git+https://…#main` 或仓库根地址装不了；也别指望 `…/tree/main/dsh-whale-widget-w` 这种子目录地址 —— 安装一律走**分支根**。
 - ⚠ 本文档与 `HANDOFF.md` 里不要再写死含用户名的绝对路径（`C:\Users\...`、`D:\...`）——这两个文件会随包发布。
-- `.github/workflows/publish.yml`（W.2 时代的发布流水线）与 `docs/` 旧截图已随基线重置删除；`docs/` 待按 README-W 的 7 个配图占位补图。
+- `.github/workflows/publish.yml`（W.2 时代的发布流水线）与 `docs/` 旧截图已随基线重置删除；`docs/` 已按 README-W 重新补齐 13 张（清单与打码流程见 §8）。
 
 ## 2. 调试钩子（dsh 页面控制台）
 
@@ -117,9 +117,12 @@ window.__dshwTrigDebug.ew(id)                 // 读某颗泡的生效权重；�
 | 4 `screenshot-usage-month.png` | 本月用量明细泡（绿灯 + 红色加价） | ✅ 已放（§三、§四 共用） |
 | — `screenshot-dsh-token-panel.png` | DSH 自带 Token 用量面板（§四"前端"数据源对照） | ✅ 已放 |
 | — `screenshot-plugin-install-ui.png` | 设置 → 插件 → 插件管理（§七 方式三） | ✅ 已放（换成用户给的大图） |
-| 5 `screenshot-tampermonkey.png` | Tampermonkey 安装页 + 从头演示安装流程 | ⬜ 待补（用户要先卸脚本再重演一遍） |
-| 6 `screenshot-peak-lock.png` | 峰时锁定（发送按钮隐藏）+ 锁定泡 | ⬜ 待补 |
-| 7 `screenshot-trig-edit.png` | 触发提醒编辑窗口（含启用框） | ⬜ 待补 |
+| 5 `screenshot-tampermonkey.png` | Tampermonkey 脚本安装页 | ✅ 已放（v1.0.2） |
+| — `screenshot-token-sync-console.png` | platform 页控制台两行 `[dsh-whale]` 日志 | ✅ 已放（DeepSeek 埋点行含 `user_unique_id`/`web_id`，**已整行抹白**） |
+| 6 `screenshot-peak-lock.png` | 峰时锁定 | ➖ 不放（用户定：没必要） |
+| 7 `screenshot-trig-edit.png` | 触发提醒编辑窗口 | ➖ 不放（同上） |
+
+**截图打码流程**（下次补图照做，脚本在 `%TEMP%\readme-preview\crop.js`，纯 `pngjs` 无原生依赖）：`node crop.js 输入 输出 mask x y w h 底色` 覆盖矩形、不带 `mask` 参数则是裁剪。定位办法：先按颜色阈值扫出目标块（比如 DevTools 的黄色告警底 = `R>225 && G>215 && B<190`）拿到精确行列，再遮；**遮完一定要把结果裁出来用眼睛复核**，边缘残留很常见（这次 `¥` 就露过一次）。底色取周围像素色才不会看出方块。用户口径：**账号余额这类可见数字不用遮，只要不漏标识符/密钥类信息**；README 图注里已写明"发布前检查是否含账号/密钥信息"。
 
 ⚠ 截图放进来之前先查 **PNG 元数据**（`tEXt`/`iTXt` 里常带作者名、生成工具、绝对路径），必要时剥掉再发布 —— 素材口径见 PROVENANCE.md。11 张已全部扫过，无文本块。
 ⚠ 对外文档里**不要写"气泡带尾巴两个小点"这类观感描述**（2026-09-23 用户明确：那是他的个人喜好改动，不是功能点）；同理"同形同位"这种实现口吻也改成中性说法。
@@ -127,7 +130,7 @@ window.__dshwTrigDebug.ew(id)                 // 读某颗泡的生效权重；�
 ## 9. 待办
 
 - [x] ~~验收演示完成后 git 提交 + 打 tag~~ → 2026-09-23 已发：`main` + `whale` 分支 + tag `v0.3.5-w.3` + Release
-- [ ] 补 3 张配图（§四 Tampermonkey 安装页、§一 原版菜单已放；剩 Tampermonkey / 另 2 张见 §8 清单）
+- [x] 配图补齐（2026-09-23）：docs/ 共 13 张，含油猴安装页与同步成功控制台图；§五/§六 按用户意见不放图
 - [ ] **GitHub 首屏用哪份 README 待定**：现在 `main` 根 README 是"插件集合"目录页，`whale` 分支根是 README.md（上游口径 + W 横幅）+ README-W.md（W 版详解）
 - [ ] **修 `scripts/sync-branches.mjs`**（新克隆上必失败，见 §15）
 - [ ] 恢复默认基线是否按"常驻只勾 B"的最新状态再烤一次（当前基线是常驻=无）—— 等用户点头
